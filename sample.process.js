@@ -12,6 +12,15 @@ const data = JSON
         m.text = module.text_plain
       } else if (m.type === 'image') {
         m.imageUrl = module.sizes.original
+        m.caption = module.alt_text
+      } else if (m.type === 'media_collection') {
+        m.images = module.components.map((component) => ({
+          imageUrl: component.src,
+          caption: component.alt_text
+        }))
+      } else if (m.type === 'embed') {
+        m.embed = module.original_embed
+        m.caption = module.caption_plain
       } else {
         return module
       }
@@ -24,4 +33,4 @@ const data = JSON
     url: project.url
   }))
 
-console.log(data)
+console.log(JSON.stringify(data))
